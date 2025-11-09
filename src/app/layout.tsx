@@ -1,3 +1,4 @@
+import { Providers } from "@/lib/providers";
 import "@/styles/globals.css";
 
 import type { Metadata } from "next";
@@ -17,7 +18,9 @@ const geist = Geist({
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html className={`${geist.variable}`} lang="en">
-      <body>{children}</body>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
