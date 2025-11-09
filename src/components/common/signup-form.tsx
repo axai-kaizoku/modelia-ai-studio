@@ -124,8 +124,8 @@ export default function SignupForm({ onSuccess, handleClose }: { onSuccess?: () 
   return (
     <form onSubmit={handleSubmit} className="flex h-fit w-full flex-col gap-2 sm:gap-6 lg:gap-3 p-4">
       <header className="space-y-2 mb-2">
-        <h1 className="font-satoshiMedium text-2xl text-black">Create Account 🚀</h1>
-        <p className="text-neutral-700 font-satoshiMedium text-sm">Sign up to get started</p>
+        <h1 className="font-medium text-2xl">Create Account 🚀</h1>
+        <p className=" text-sm">Sign up to get started</p>
       </header>
 
       <div>

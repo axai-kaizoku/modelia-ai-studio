@@ -3,6 +3,8 @@
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLoginDialog } from "@/hooks/use-login-dialog";
+import { AnimatedThemeToggle } from "@/components/animated-theme-toggle";
+import ShinyButton from "@/components/ui/shiny-button";
 
 export const LandingHero = () => {
   const { LoginDialogWithState, openDialog } = useLoginDialog();
@@ -45,8 +47,7 @@ export const LandingHero = () => {
         </div>
 
         <div className="absolute top-4 right-4 z-50">
-          {/* <ThemeToggle /> */}
-          Theme
+          <AnimatedThemeToggle />
         </div>
 
         {/* Content */}
@@ -78,25 +79,18 @@ export const LandingHero = () => {
 
             {/* CTA Buttons */}
             <div
-              className="flex flex-col sm:flex-row gap-4 justify-center mb-16 animate-fade-in"
+              className="flex flex-col sm:flex-row gap-4 justify-center mb-16 animate-fade-in h-14"
               style={{ animationDelay: "0.2s" }}
             >
-              <Button
+              {/* <Button
                 className="bg-gradient-to-r from-primary to-accent hover:shadow-lg hover:shadow-primary/50 text-primary-foreground px-8 py-6 text-lg rounded-full font-semibold transition-all duration-300 cursor-pointer"
                 size="lg"
                 onClick={openDialog}
               >
                 Get Started
                 <ArrowRight className="ml-2 w-5 h-5" />
-              </Button>
-              <Button
-                className="border-border hover:bg-card px-8 py-6 text-lg rounded-full font-semibold transition-all duration-300 cursor-pointer bg-transparent"
-                asChild
-                variant="outline"
-                size="lg"
-              >
-                <a href="#features">Learn More</a>
-              </Button>
+              </Button> */}
+              <ShinyButton onClick={() => openDialog()}>Get Started</ShinyButton>
             </div>
 
             {/* Feature highlights */}

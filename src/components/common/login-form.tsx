@@ -74,8 +74,8 @@ export default function LoginForm({ onSuccess, handleClose }: { onSuccess?: () =
   return (
     <form onSubmit={handleSubmit} className="flex h-fit w-full flex-col gap-2 sm:gap-6 lg:gap-3 p-4">
       <header className="space-y-2 mb-2">
-        <h1 className="font-satoshiMedium text-2xl text-black">Welcome 👋</h1>
-        <p className="text-neutral-700 font-satoshiMedium text-sm">Enter your credentials to access your account</p>
+        <h1 className="font-medium text-2xl ">Welcome 👋</h1>
+        <p className=" text-sm">Enter your credentials to access your account</p>
       </header>
 
       <div>

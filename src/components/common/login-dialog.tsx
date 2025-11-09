@@ -24,8 +24,8 @@ export const LoginDialog = ({
         </DialogHeader>
         <div className="grid grid-cols-2 w-full gap-4">
           <div className="col-span-1">
-            {/* <img src="/media/landing/login-form.png" width={480} height={480} alt="login" className="object-contain" /> */}
-            <div className="p-2 w-full h-full bg-amber-100 rounded-xl"></div>
+            <img src="/login-form.webp" width={480} height={480} alt="login" className="object-contain rounded-xl" />
+            {/* <div className="p-2 w-full h-full bg-amber-100 rounded-xl"></div> */}
           </div>
           <div className="col-span-1 w-full flex justify-end items-center">
             <div className="w-full h-fit flex items-center justify-center">
