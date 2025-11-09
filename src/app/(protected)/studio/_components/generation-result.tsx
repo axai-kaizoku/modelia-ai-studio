@@ -2,6 +2,7 @@
 
 import { Copy, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 interface GenerationItem {
   id: string;
@@ -28,6 +29,7 @@ export default function GenerationResult({ result }: GenerationResultProps) {
 
   const handleCopyPrompt = () => {
     navigator.clipboard.writeText(result.prompt);
+    toast.success("Prompt copied to clipboard!");
   };
 
   return (

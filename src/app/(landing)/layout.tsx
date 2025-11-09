@@ -15,9 +15,5 @@ export default async function Layout({ children }: { children: React.ReactNode }
   }
 
   // User is fully set up, redirect to products
-<<<<<<< HEAD
   redirect("/studio");
-=======
-  redirect("/dashboard");
->>>>>>> master
 }

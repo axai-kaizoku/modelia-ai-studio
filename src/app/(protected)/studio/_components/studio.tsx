@@ -13,6 +13,7 @@ import { generateImage, getAllGenerations } from "@/server/api/generate/actions"
 import GenerationHistory from "./generation-history";
 import GenerationResult from "./generation-result";
 import ImageUploadPreview from "./image-upload-preview";
+import { AnimatedThemeToggle } from "@/components/animated-theme-toggle";
 
 interface GenerationItem {
   id: string;
@@ -162,8 +163,7 @@ export default function StudioPage({ userEmail }: StudioPageProps) {
           </div>
 
           <div className="flex items-center gap-3">
-            {/* <ThemeToggle /> */}
-            Theme
+            <AnimatedThemeToggle />
             {/* <Button
               // onClick={onLogout}
               variant="outline"
