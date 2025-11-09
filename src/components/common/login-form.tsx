@@ -1,15 +1,13 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
-import React, { useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
-
 import { LoadingButton } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-
-import { useRouter } from "next/navigation";
 
 export default function LoginForm({ onSuccess, handleClose }: { onSuccess?: () => void; handleClose: () => void }) {
   const router = useRouter();

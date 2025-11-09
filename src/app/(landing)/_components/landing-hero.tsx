@@ -1,8 +1,8 @@
 "use client";
 
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLoginDialog } from "@/hooks/use-login-dialog";
-import { ArrowRight } from "lucide-react";
 
 export const LandingHero = () => {
   const { LoginDialogWithState, openDialog } = useLoginDialog();
