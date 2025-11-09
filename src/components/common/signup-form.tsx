@@ -109,7 +109,7 @@ export default function SignupForm({ onSuccess, handleClose }: { onSuccess?: () 
 
       toast.success("Login successful!", { id: loadingToastId });
 
-      router.push("/dashboard");
+      router.push("/studio");
       router.refresh();
       handleClose?.();
       onSuccess?.();

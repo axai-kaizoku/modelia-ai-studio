@@ -6,7 +6,7 @@ import { auth } from "./auth";
 
 export const getTokenFromSession = cache(async () => {
   const session = await auth();
-  const token = session?.user?.token;
+  const token = session?.token?.access?.token;
   return { token: token };
 });
 
