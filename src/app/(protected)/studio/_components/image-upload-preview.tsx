@@ -17,7 +17,7 @@ export default function ImageUploadPreview({ image, onUpload, onClear }: ImageUp
         <label className="flex flex-col items-center justify-center p-12 border-2 border-dashed border-primary/50 rounded-xl hover:border-primary/80 transition-all duration-300 cursor-pointer hover:bg-primary/5 group">
           <div className="flex flex-col items-center gap-2">
             <div className="p-3 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-all duration-300">
-              <Upload className="w-6 h-6 text-primary" />
+              <Upload className="w-6 h-6 text-primary" data-testid="upload-icon" />
             </div>
             <p className="font-semibold text-foreground">Click to upload</p>
             <p className="text-sm text-muted-foreground">PNG, JPG up to 10MB</p>

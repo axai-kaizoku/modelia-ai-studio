@@ -14,10 +14,8 @@ Modelia AI Studio is a web application that allows you to create and manage AI m
 
 [x] - Generate and store images
 
-[ ] - add test cases
+[x] - add test cases
 
-[ ] - add theme toggle
-
-[ ] - ?add animations
+[x] - add theme toggle
 
 [ ] - ?add animations
