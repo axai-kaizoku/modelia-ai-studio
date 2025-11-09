@@ -19,7 +19,12 @@ export default function LoginForm({ onSuccess, handleClose }: { onSuccess?: () =
 
   const loginSchema = z.object({
     email: z.string().email("Please enter a valid email"),
-    password: z.string().min(1, "Password is required"),
+    password: z
+      .string()
+      .min(8, { message: "Password must be at least 8 characters" })
+      .refine((val) => /[a-zA-Z]/.test(val) && /\d/.test(val), {
+        message: "Password must contain at least 1 letter and 1 number",
+      }),
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -56,7 +61,7 @@ export default function LoginForm({ onSuccess, handleClose }: { onSuccess?: () =
         return;
       }
 
-      router.push("/dashboard");
+      router.push("/studio");
       router.refresh();
       handleClose?.();
       onSuccess?.();
