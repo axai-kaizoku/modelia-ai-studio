@@ -1,6 +1,5 @@
 import { render, screen } from "@testing-library/react";
 import GenerationResult from "../generation-result";
-import "@testing-library/jest-dom";
 
 describe("GenerationResult", () => {
   const mockResult = {

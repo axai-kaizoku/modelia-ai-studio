@@ -17,25 +17,6 @@ const customJestConfig = {
     "!src/**/*.stories.{js,jsx,ts,tsx}",
     "!src/**/__tests__/**",
   ],
-  transform: {
-    "^.+\\.(js|jsx|ts|tsx)$": [
-      "@swc/jest",
-      {
-        jsc: {
-          parser: {
-            syntax: "typescript",
-            tsx: true,
-          },
-          transform: {
-            react: {
-              runtime: "automatic",
-            },
-          },
-        },
-      },
-    ],
-  },
-  extensionsToTreatAsEsm: [".ts", ".tsx"],
 };
 
 export default createJestConfig(customJestConfig);

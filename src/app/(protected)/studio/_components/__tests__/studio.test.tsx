@@ -3,8 +3,33 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { toast } from "sonner";
 import StudioPage from "../studio";
 import { generateImage, getAllGenerations } from "@/server/api/generate/actions";
-import "@testing-library/jest-dom";
 
+// Mock next/navigation
+jest.mock("next/navigation", () => ({
+  useRouter: () => ({
+    push: jest.fn(),
+    replace: jest.fn(),
+    prefetch: jest.fn(),
+    back: jest.fn(),
+    pathname: "/",
+    query: {},
+    asPath: "/",
+    refresh: jest.fn(),
+  }),
+  usePathname: () => "/",
+  useSearchParams: () => new URLSearchParams(),
+}));
+
+// Mock sonner
+jest.mock("sonner", () => ({
+  toast: {
+    success: jest.fn(),
+    error: jest.fn(),
+    loading: jest.fn(),
+  },
+}));
+
+// Mock API actions
 jest.mock("@/server/api/generate/actions", () => ({
   generateImage: jest.fn(),
   getAllGenerations: jest.fn(),

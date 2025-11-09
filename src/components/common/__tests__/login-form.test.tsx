@@ -2,10 +2,29 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { signIn } from "next-auth/react";
 import { toast } from "sonner";
 import LoginForm from "../login-form";
-import "@testing-library/jest-dom";
-import { jest } from "@jest/globals";
 
-jest.mock("next-auth/react");
+// Mock next/navigation
+jest.mock("next/navigation", () => ({
+  useRouter: () => ({
+    push: jest.fn(),
+    refresh: jest.fn(),
+  }),
+}));
+
+// Mock next-auth
+jest.mock("next-auth/react", () => ({
+  signIn: jest.fn(),
+}));
+
+// Mock sonner
+jest.mock("sonner", () => ({
+  toast: {
+    success: jest.fn(),
+    error: jest.fn(),
+    loading: jest.fn(),
+  },
+}));
+
 const mockSignIn = signIn as jest.MockedFunction<typeof signIn>;
 
 describe("LoginForm", () => {

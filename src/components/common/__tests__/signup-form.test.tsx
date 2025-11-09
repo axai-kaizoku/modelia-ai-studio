@@ -4,10 +4,33 @@ import { signIn } from "next-auth/react";
 import { toast } from "sonner";
 import SignupForm from "../signup-form";
 import { signup } from "@/server/api/login/actions";
-import "@testing-library/jest-dom";
 
-jest.mock("next-auth/react");
-jest.mock("@/server/api/login/actions");
+// Mock next/navigation
+jest.mock("next/navigation", () => ({
+  useRouter: () => ({
+    push: jest.fn(),
+    refresh: jest.fn(),
+  }),
+}));
+
+// Mock next-auth
+jest.mock("next-auth/react", () => ({
+  signIn: jest.fn(),
+}));
+
+// Mock sonner
+jest.mock("sonner", () => ({
+  toast: {
+    success: jest.fn(),
+    error: jest.fn(),
+    loading: jest.fn(),
+  },
+}));
+
+// Mock API actions
+jest.mock("@/server/api/login/actions", () => ({
+  signup: jest.fn(),
+}));
 
 const mockSignIn = signIn as jest.MockedFunction<typeof signIn>;
 const mockSignup = signup as jest.MockedFunction<typeof signup>;

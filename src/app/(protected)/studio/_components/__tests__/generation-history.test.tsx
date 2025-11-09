@@ -1,6 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import GenerationHistory from "../generation-history";
-import "@testing-library/jest-dom";
 
 describe("GenerationHistory", () => {
   const mockItems = [

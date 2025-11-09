@@ -1,5 +1,4 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import "@testing-library/jest-dom";
 import ImageUploadPreview from "../image-upload-preview";
 
 describe("ImageUploadPreview", () => {
