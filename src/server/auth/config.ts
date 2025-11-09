@@ -4,25 +4,29 @@ import { type DefaultJWT, type JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 export type LoggedInUser = {
-  _id: string;
+  id: string;
   name: string;
-  orgId: string;
-  gender: string;
-  password: string;
   email: string;
-  phone: string;
-  role: number;
-  hasPurchased: boolean;
-  isTcValidated: boolean;
-  designation?: string | null;
-  image: string;
-  sessionId: string;
+  password: string;
+  role: string;
+  isEmailVerified: boolean;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type LoginResponse = {
-  message: string;
-  token: string;
   user: LoggedInUser;
+  message?: string;
+  token: {
+    access: {
+      token: string;
+      expires: string;
+    };
+    refresh: {
+      token: string;
+      expires: string;
+    };
+  };
 };
 
 /**
@@ -33,25 +37,27 @@ export type LoginResponse = {
  */
 declare module "next-auth" {
   interface Session extends DefaultSession {
-    user: {
-      token?: string;
-      user: LoggedInUser;
-      message?: string;
-      // ...otherResponse["user"][0]
-      // ...other properties
-    } & DefaultSession["user"];
+    user: LoggedInUser & DefaultSession["user"];
+    token: {
+      access: {
+        token: string;
+        expires: string;
+      };
+      refresh: {
+        token: string;
+        expires: string;
+      };
+    };
   }
 
   export interface AdapterUser {
-    // id?: string
     message?: string;
-    token?: string;
+    token: LoginResponse["token"];
     user: LoginResponse["user"];
   }
 
   interface User {
-    // id?: string
-    token?: string;
+    token: LoginResponse["token"];
     message?: string;
     user: LoginResponse["user"];
   }
@@ -62,8 +68,7 @@ declare module "next-auth/jwt" {
    * Returned by `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
    */
   interface JWT extends DefaultJWT {
-    // id?: string
-    token?: string;
+    token: LoginResponse["token"];
     user: LoginResponse["user"];
   }
 }
@@ -91,16 +96,16 @@ export const authConfig = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const res = await fetch(`${env.BASEURL_API}/eppbackend/v1/auth/verify-code`, {
+        const res = await fetch(`${env.BASEURL_API}/v1/auth/login`, {
           method: "POST",
           body: JSON.stringify({
             email: credentials?.email,
-            code: credentials?.password,
+            password: credentials?.password,
           }),
           headers: { "Content-Type": "application/json" },
         });
 
-        let body: any;
+        let body: Response & { message?: string };
         try {
           body = await res.json();
         } catch {
@@ -108,24 +113,34 @@ export const authConfig = {
           console.error("[AUTH ERROR] Non-JSON response:", text.slice(0, 200));
           throw new Error("Invalid response from auth server (non-JSON)");
         }
-        if (res.status === 200) return body as unknown as LoginResponse;
+        if (res.status === 200) {
+          const loginResponse = body as unknown as LoginResponse;
+          return {
+            token: loginResponse.token,
+            user: loginResponse.user,
+          };
+        }
         return {
-          message: body.message,
-          token: "error",
+          message: body?.message || "Invalid credentials",
           user: {
-            _id: "string",
-            name: "string",
-            orgId: "string",
-            gender: "string",
-            password: "XXXXXX",
-            email: "string",
-            phone: "string",
-            role: 0,
-            hasPurchased: false,
-            isTcValidated: false,
-            designation: "string",
-            image: "string",
-            sessionId: "string",
+            createdAt: "",
+            email: "",
+            id: "",
+            isEmailVerified: false,
+            name: "",
+            password: "",
+            role: "",
+            updatedAt: "",
+          },
+          token: {
+            access: {
+              expires: "",
+              token: "",
+            },
+            refresh: {
+              expires: "",
+              token: "",
+            },
           },
         };
       },
@@ -136,9 +151,9 @@ export const authConfig = {
   trustHost: true,
   secret: env.AUTH_SECRET,
   callbacks: {
-    signIn: async ({ account, profile, user }) => {
+    signIn: async ({ account, user }) => {
       if (account?.provider === "credentials") {
-        if (user.token === "error") return `/?error=${user?.message}`;
+        if (!user || user.message) return `/?error=${user?.message}`;
         return true;
       }
       return true;
@@ -152,9 +167,9 @@ export const authConfig = {
       return token;
     },
     session: async ({ session, token }: { session: Session; token: JWT }) => {
-      if (token) {
-        session.user.token = token.token;
-        session.user.user = token.user as unknown as LoggedInUser;
+      if (token?.token) {
+        session.token = token.token;
+        session.user = { ...session.user, ...token.user };
       }
       return session;
     },
