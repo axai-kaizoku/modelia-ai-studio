@@ -7,7 +7,7 @@ export default async function Page() {
     <div>
       {/* <LogoutButton /> */}
       {/* <pre>{JSON.stringify(session, null, 2)}</pre> */}
-      <StudioPage userEmail={session?.user?.email ?? ""} />
+      <StudioPage userEmail={session?.user?.email ?? ""} token={session?.token?.access?.token} />
     </div>
   );
 }

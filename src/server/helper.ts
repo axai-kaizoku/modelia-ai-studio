@@ -16,7 +16,7 @@ export async function callAPIWithToken<T>(
   url: string,
   method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH",
   body: unknown = null,
-  headers: Record<string, string> = {} // Allow passing custom headers
+  headers: Record<string, string> = {} // Allow passing custom headers,
 ): Promise<APIResult<T>> {
   // Retrieve the token
   const { token } = await getTokenFromSession();

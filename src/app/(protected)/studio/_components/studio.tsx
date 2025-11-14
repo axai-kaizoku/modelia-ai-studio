@@ -14,6 +14,7 @@ import GenerationHistory from "./generation-history";
 import GenerationResult from "./generation-result";
 import ImageUploadPreview from "./image-upload-preview";
 import { AnimatedThemeToggle } from "@/components/animated-theme-toggle";
+import { env } from "@/env";
 
 interface GenerationItem {
   id: string;
@@ -26,9 +27,10 @@ interface GenerationItem {
 
 interface StudioPageProps {
   userEmail: string;
+  token: string;
 }
 
-export default function StudioPage({ userEmail }: StudioPageProps) {
+export default function StudioPage({ userEmail, token }: StudioPageProps) {
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [prompt, setPrompt] = useState("");
   const [style, setStyle] = useState("fashion");
@@ -46,21 +48,37 @@ export default function StudioPage({ userEmail }: StudioPageProps) {
   });
 
   const generateMutation = useMutation({
-    mutationFn: generateImage,
+    mutationFn: async () => {
+      const res = fetch(`${env.NEXT_PUBLIC_BASEURL_API}/v1/generate`, {
+        method: "POST",
+        body: JSON.stringify({
+          imageUpload: uploadedImage,
+          prompt,
+          style,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+        signal: abortControllerRef?.current?.signal,
+      });
+      return (await res).json();
+    },
     onSuccess: (data) => {
-      if (data.error || !data.data) {
-        toast.error(data.message ?? "Generation failed");
-        setRetryCount((prev) => prev + 1);
-        return;
-      }
+      // if (data.error || !data.data) {
+      //   toast.error(data.message ?? "Generation failed");
+      //   setRetryCount((prev) => prev + 1);
+      //   return;
+      // }
+      console.log(data);
 
       const result: GenerationItem = {
-        id: data.data.id,
+        id: data.id,
         originalImage: uploadedImage ?? "",
-        prompt: data.data.prompt,
-        style: data.data.style,
-        resultImage: data.data.imageUrl,
-        timestamp: new Date(data.data.createdAt),
+        prompt: data.prompt,
+        style: data.style,
+        resultImage: data.imageUrl,
+        timestamp: new Date(data.createdAt),
       };
 
       setGenerationResult(result);
@@ -190,7 +208,11 @@ export default function StudioPage({ userEmail }: StudioPageProps) {
                 <ImageUploadPreview
                   image={uploadedImage}
                   onUpload={handleImageUpload}
-                  onClear={() => setUploadedImage(null)}
+                  onClear={() => {
+                    setUploadedImage(null);
+                    setPrompt("");
+                    setStyle("");
+                  }}
                 />
               </div>
 
